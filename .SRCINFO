@@ -1,7 +1,7 @@
 pkgbase = molden
 	pkgdesc = A program for molecular and electronic structure visualization
 	pkgver = 6.7
-	pkgrel = 1
+	pkgrel = 2
 	url = http://www.cmbi.ru.nl/molden/
 	arch = i686
 	arch = x86_64
@@ -18,7 +18,13 @@ pkgbase = molden
 	optdepends = wget: to fetch PDB from rcsb.org
 	provides = molden
 	source = ftp://ftp.cmbi.umcn.nl/pub/molgraph/molden/molden6.7.tar.gz
+	source = molden.desktop
+	source = molden.png
 	md5sums = 65d2f8fbdb2800e48bb0e12c814dfcd5
+	md5sums = SKIP
+	md5sums = SKIP
+	sha256sums = ebd73e8d95271eb82a1464a7eab28a042662483bbff6e6dcc7db0d1c9b2e4432
+	sha256sums = 28b0a93a583f1c0d5e735964f9991bbfa18995709fd8d00dc9d91d619053d61c
+	sha256sums = dc3104c3c3a9d437128865f0703258692e6727fc2cfa9718c7a3547d63c2bb31
 
 pkgname = molden
-
