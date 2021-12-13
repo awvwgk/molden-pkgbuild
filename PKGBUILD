@@ -1,7 +1,7 @@
 # Maintainer: Dan Maftei <dan.maftei@gmail.com>
 pkgname="molden"
 pkgver=6.7
-pkgrel=2
+pkgrel=3
 pkgdesc="A program for molecular and electronic structure visualization"
 arch=('i686' 'x86_64')
 url="http://www.cmbi.ru.nl/molden/"
@@ -31,12 +31,19 @@ source=(
     "ftp://ftp.cmbi.umcn.nl/pub/molgraph/molden/$pkgname$pkgver.tar.gz"
     "molden.desktop"
     "molden.png"
+    "hacks.patch"
 )
 noextract=()
-md5sums=('65d2f8fbdb2800e48bb0e12c814dfcd5' 'SKIP' 'SKIP')
+md5sums=('65d2f8fbdb2800e48bb0e12c814dfcd5' 'SKIP' 'SKIP' 'SKIP')
 sha256sums=('ebd73e8d95271eb82a1464a7eab28a042662483bbff6e6dcc7db0d1c9b2e4432'
             '28b0a93a583f1c0d5e735964f9991bbfa18995709fd8d00dc9d91d619053d61c'
-            'dc3104c3c3a9d437128865f0703258692e6727fc2cfa9718c7a3547d63c2bb31')
+            'dc3104c3c3a9d437128865f0703258692e6727fc2cfa9718c7a3547d63c2bb31'
+            'fbc92c4363e46a54edd7edee509f14c8ed399ca27320b3848afc2fac2a0148fd')
+
+prepare () {
+  cd "molden$pkgver"
+  patch -Np1 -i "${srcdir}/hacks.patch"
+}
 
 build() {
   cd "molden$pkgver"

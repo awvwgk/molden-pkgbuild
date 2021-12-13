@@ -1,0 +1,86 @@
+diff --git a/xwin.c b/xwin.c
+index c132c72..e2cdcb0 100644
+--- a/src/xwin.c
++++ b/src/xwin.c
+@@ -1247,11 +1247,13 @@ static char *unknown  = "Unknown";
+ #define MAXDIRLEN 1024
+ #define DEFSTRNAME ""
+ #define DEFAUTHGEOM  "-100+100"
+-#define DEFCNVGEOM  "-10+10"
++#define DEFCNVGEOM  "-1090+66"
+ #define DEFPMFGEOM  "-10+440"
+-#define DEFCNV2GEOM  "-410+10"
++#define DEFCNV2GEOM  "-830+545"
+ #define DEFQBOXGEOM  "-400-400"
+ #define DEFPOPGEOM  "-200+200"
++#define DEFWINFREQ  "-1090+490"
++#define DEFWINZMAT  "-1090+66"
+ #define DEFQX	3
+ #define DEFQY	3
+ #define QBOXWIDE  450
+@@ -6671,7 +6673,7 @@ static int Fwinopt = BREP;
+ 
+ #define WINMCWIDE  248
+ #define WINMCHIGH  445
+-#define DEFWINMCGEOM "-130+80"
++#define DEFWINMCGEOM "-830+66"
+ static int DowinC = 1;
+ static int DowinMC = 1;
+ static int DoactC = 1;
+@@ -7183,9 +7185,11 @@ Window Parwin;
+ 	hints.flags |= USSize;
+ 
+ 	if (i&XValue && i&XNegative)
+-	  x = DisplayWidth(display,screen) - w - abs(x);
++//	  x = DisplayWidth(display,screen) - w - abs(x); 
++	  x = abs(x);
+ 	if (i&YValue && i&YNegative)
+-	  y = DisplayHeight(display,screen) - h - abs(y);
++// 	  y = DisplayHeight(display,screen) - h - abs(y);,
++	  y = abs(y);
+ 
+ 	hints.x = x;                  hints.y = y;
+ 	hints.width = w;              hints.height = h;
+@@ -23438,8 +23442,22 @@ to align to the current molecule.\n \n\
+ 		        qboxup = 0;
+ 		    } else if (client_event->window == winMC ||
+ 				client_event->window == win) {
+-			if (DoCan(width/2, height/2,
+-				"Use the Skull Icon to quit Molden",0)) {}
++			//if (DoCan(width/2, height/2,
++			//	"Use the Skull Icon to quit Molden",0)) {}
++				update_model = 0;
++				   FreeAll(1);
++#ifdef DOGL
++#ifdef GL_ARB_shader_objects
++				   if (has_shader) del_shader();
++#endif
++#ifdef GL_COLOR_ATTACHMENT0_EXT
++				   if (has_fbo) del_fbo(&fbo);
++#endif
++#endif
++				   XFreeGC(display, gc);
++				   XCloseDisplay(display);
++				   exit(0);
++				   *inct = 15;
+ 		    }
+ 		}
+ 	   }
+@@ -24055,7 +24073,7 @@ dispsf();
+ 
+     FileSelect(&fsel);
+ 
+-    ZMEwin = CreateWindow("Zmatrix Editor","-0+0",ZMEWINW,ZMEWINH,infobg,infofg,(Window)0);
++    ZMEwin = CreateWindow("Zmatrix Editor",DEFWINZMAT,ZMEWINW,ZMEWINH,infobg,infofg,(Window)0);
+     XSelectInput(display, ZMEwin, 
+ 		SubstructureNotifyMask | ExposureMask | KeyPressMask | 
+ 		ButtonPressMask | ButtonReleaseMask | ButtonMotionMask | 
+@@ -29359,7 +29377,7 @@ int dowin;
+ {
+ 
+    if (dowin) {
+-	FrBox = CreateWindow("Molden Frequency Select","-80-80",QBOXWIDE,310,
++	FrBox = CreateWindow("Molden Frequency Select",DEFWINFREQ,QBOXWIDE,310,
+ 	   infobg,infofg,(Window)0);
+ 	XSelectInput(display, FrBox, ExposureMask | KeyPressMask | 
+ 	   ButtonPressMask | ButtonReleaseMask | ButtonMotionMask | 
